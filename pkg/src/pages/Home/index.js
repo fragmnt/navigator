@@ -30,6 +30,16 @@ class HomePage extends Component {
         };
     };
 
+    componentDidMount = () => {
+        let token = localStorage.getItem('token');
+        if (token) {
+            this.props.history.push({
+                pathname: `/dashboard`
+            });
+        };
+       
+    }
+
     render() {
         return(<>
 
