@@ -14,9 +14,15 @@ class HomePage extends Component {
     }
 
     addParcelToService = async () => {
+        // show loading spinner
         var inputData = this.parcelTextRef.current.value;
         const response = await addParcel(inputData);
-        console.log(response.data, response.status);
+        if (response.status === 200) {
+            localStorage.setItem('token', response.data.accessToken);
+            // hide spinner, redirect
+        } else if (response.status === 500) {
+            console.log(response);
+        }
     };
 
     render() {

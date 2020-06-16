@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('../../api.config');
+const jwt_decode = require('jwt-decode');
 
 const generate = async (payload) => {
     var token = await jwt.sign({ id: payload }, config.secret, {
@@ -17,4 +18,9 @@ const verify = async (authToken) => {
     return checkedToken;
 };
 
-module.exports = {generate, verify}
+const decode = (authToken) => {
+    var payload = jwt_decode(authToken);
+    return payload;
+};
+
+module.exports = {generate, verify, decode}

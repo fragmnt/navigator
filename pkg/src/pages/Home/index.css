@@ -8,3 +8,9 @@ h1 {/*
 .primary_btn {
     background-color: #19191b !important;
 }
+
+.menuBtn {
+    color: #FFF !important;
+    /* flex-grow: 1 !important; */
+    margin-left: auto !important;
+}

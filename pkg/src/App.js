@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {withRouter, Switch, Route, Redirect} from 'react-router-dom';
+
 import HomePage from './pages/Home';
+import DashboardPage from './pages/Dashboard';
 
 import { AppBar, Typography, IconButton, Toolbar} from '@material-ui/core';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
@@ -17,7 +19,7 @@ class App extends Component {
     }
 
     componentDidMount = () => {
-
+        localStorage.getItem('token') ? this.setState({ isAuthenticated: true }) : this.setState({ isAuthenticated: false });
     };
 
     render() {
@@ -28,18 +30,20 @@ class App extends Component {
         <>
                 <AppBar position="static" className="appbar_black">
                 <Toolbar>
-                <IconButton edge="start" className="menuButton" color="inherit" aria-label="menu">
+                <IconButton edge="start" className="menuButton" style={{
+                    color: '#1294f3'
+                }} aria-label="menu">
                 <TrackChangesIcon/>
                 </IconButton>
                 <Typography variant="h6" className="title">
                     Navigator
                 </Typography>
-               {isAuthenticated ? <AccountBoxIcon/> : <InfoIcon/>}
+                <IconButton className="menuBtn">{isAuthenticated ? <AccountBoxIcon/> : <InfoIcon/>}</IconButton>
             </Toolbar>
         </AppBar>
         <Switch>
             <Route path="/dashboard">
-                <div>ok</div>
+                <DashboardPage/>
             </Route>
             <Route exact path='/'>
                {isAuthenticated ? <Redirect to="/dashboard"/> : <HomePage/>}

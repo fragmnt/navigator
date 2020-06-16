@@ -1,14 +1,23 @@
 const fp = require('fastify-plugin');
 const route = require('fastify');
 const redis = require('redis');
+const r = require('rethinkdb');
 
 const thinky = require('thinky');
-const rt = require('./db/rethink.db.config');
 const rd = require('./db/redis.db.config');
 const pgd = require('./services/pagerduty.service');
 
-const {generate, verify} = require('./lib/utils/jwt');
+const {generate, verify, decode} = require('./lib/utils/jwt');
 const {uuid} = require('uuidv4');
+
+let callback = (err, result) => {if (err) throw err;console.log(JSON.stringify(result, null, 2));};
+var rconn = null;
+r.connect( { host: process.env.RETHINKDB_HOST, port: process.env.RETHINKDB_PORT}, (err, conn) => {
+	if (err) throw err;
+	rconn = conn;
+});
+/*
+r.db('test').tableCreate('users').run(rconn, callback); */
 
 module.exports = function (route, options, next) {
 	route.get('/', (req, res) => {
@@ -22,14 +31,27 @@ module.exports = function (route, options, next) {
 			}
 		});
 	});
-
+	
 	route.post('/add/parcel', async (req, res) => {
 		const pName = req.body.parcelKey;
-		const uniquePK = pName + uuid().toString();
-		var atok = await generate(uniquePK); // generate access token
-		// store parcel in rethinkdb as a document
-		return res.code(200).send({ accessToken: atok, expiresIn: 604800 });
+		const uniquePK = pName.toString();
+		var atok = await generate(uniquePK); // generate access token & store parcel in rethinkdb as a document
+		var rlog = await r.table('users').insert([{ parcelName: pName, accessToken: atok }]).run(rconn, (err, result) => {
+			if (err) throw err;
+			return result;
+		});
+		return res.code(200).send({ accessToken: atok, expiresIn: 604800, rethink_db_log: rlog });
 	});
+
+	route.get('/parcel/info', async (req, res) => {
+		var atok = req.headers['x-access-token'];
+		if (!atok) {return res.code(401).send({ msg: 'No token provided.'})};
+
+		var decoded = await decode(atok);
+		return res.code(200).send({ payload: decoded });
+	});
+
+
 
 	route.post('/parcel/add/tracking', (req, res) => {
 		const pName = req.body.parcelKey;
