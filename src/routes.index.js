@@ -7,7 +7,8 @@ const rd = require('./db/redis.db.config');
 const {generate, verify, decode} = require('./lib/utils/jwt');
 
 // PAGER-DUTY
-const pgd = require('@mapbox/pagerduty')({
+const PagerDuty = require('@mapbox/pagerduty');
+const pgd = new PagerDuty({
 	pagerDutyToken: process.env.PAGERDUTY_API_TOKEN
 });
 

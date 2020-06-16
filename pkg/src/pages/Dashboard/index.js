@@ -39,14 +39,14 @@ class DashboardPage extends Component {
 
     componentDidMount = async () => {
         let token = localStorage.getItem('token');
-        if (token) {
+        if (!token) {
+            this.props.history.push({
+                pathname: `/`
+            });
+        };
             const response = await getParcelInfo();
             this.setState({ parcel: {name: response.data.payload.id}});
-        };
-        this.props.history.push({
-            pathname: `/`
-        });
-    }
+    };
 
     render() {
         const {parcel} = this.state;
