@@ -20,7 +20,7 @@ const router = require('./src/routes.index');
 
 // :.
 
-ffy.register(router, { prefix: '/v1'});
+ffy.register(router);
 ffy.register(cors, { origin: '*', preflight: true });
 ffy.register(helmet);
 ffy.register(formBody, { bodyLimit: 1048576 });

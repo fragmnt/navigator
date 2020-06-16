@@ -15,11 +15,13 @@
     "fastify-formbody": "^3.2.0",
     "fastify-helmet": "^3.0.2",
     "fastify-plugin": "^1.6.1",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.1",
     "node-pagerduty": "^1.2.0",
     "nodemon": "^2.0.4",
     "redis": "^3.0.2",
     "rethinkdb": "^2.4.2",
-    "thinky": "^2.3.9"
+    "thinky": "^2.3.9",
+    "uuidv4": "^6.1.0"
   }
 }
