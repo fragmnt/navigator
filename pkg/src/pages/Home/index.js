@@ -1,8 +1,8 @@
-import React, { Component, createRef, useRef } from 'react';
+import React, { Component, createRef } from 'react';
+import './index.css';
 
 import {Button, FormControl, InputLabel, Input, FormHelperText} from '@material-ui/core';
-
-import {addParcel} from '../services/api.service';
+import {addParcel} from '../../services/api.service';
 
 class HomePage extends Component {
 
@@ -21,12 +21,15 @@ class HomePage extends Component {
 
     render() {
         return(<>
-        Navigator
+
+        <h1>Traceability insights and traffic monitoring for last-mile parcel delivery.</h1>
+        <p>Powered by PagerDuty.</p>
+        
         <FormControl>
             <InputLabel htmlFor="parcel-input">Parcel Name:</InputLabel>
             <Input inputRef={this.parcelTextRef} id="parcel-input" aria-describedby="parcel-text-helper" />
             <FormHelperText id="parcel-text-helper">We'll never share your tracking number, unless needed.</FormHelperText>
-            <Button variant="contained" color="primary" onClick={this.addParcelToService}>
+            <Button className="primary_btn" variant="contained" color="primary" onClick={this.addParcelToService}>
                 Add New Parcel
             </Button>
         </FormControl>
