@@ -10,6 +10,8 @@ const pgd = require('./services/pagerduty.service');
 const {generate, verify, decode} = require('./lib/utils/jwt');
 const {uuid} = require('uuidv4');
 
+// RETHINKDB
+
 let callback = (err, result) => {if (err) throw err;console.log(JSON.stringify(result, null, 2));};
 var rconn = null;
 r.connect( { host: process.env.RETHINKDB_HOST, port: process.env.RETHINKDB_PORT}, (err, conn) => {
@@ -18,6 +20,17 @@ r.connect( { host: process.env.RETHINKDB_HOST, port: process.env.RETHINKDB_PORT}
 });
 /*
 r.db('test').tableCreate('users').run(rconn, callback); */
+
+// REDIS
+
+var rclient = redis.createClient(process.env.REDIS_DB_PORT, process.env.REDIS_DB_HOST);
+    rclient.on('connect', function() {
+        console.log('Redis client connected');
+    });
+    
+    rclient.on('error', function (err) {
+        console.log('Something went wrong ' + err);
+    });
 
 module.exports = function (route, options, next) {
 	route.get('/', (req, res) => {
@@ -51,30 +64,44 @@ module.exports = function (route, options, next) {
 		return res.code(200).send({ payload: decoded });
 	});
 
+	route.get('/parcel/tracking', async (req, res) => {
+		var atok = req.headers['x-access-token'];
+		if (!atok) {return res.code(401).send({ msg: 'No token provided.'})};
+		var result = await verify(atok);
+		if (!result) {return res.code(500).send({ msg: 'Failed to authenticate token.'})};
 
-
-	route.post('/parcel/add/tracking', (req, res) => {
-		const pName = req.body.parcelKey;
-		const trackerNumber = req.body.trackerNumber;
-		/* var accessToken = req.headers['x-access-token'];
-		if (!accessToken) {return res.code(401).send({ msg: 'No token provided.'})};
-		var result = await verifyBearerToken(accessToken);
-		if (!result) {return res.code(500).send({ msg: 'Failed to authenticate token.'})}; */
-		
-		rd.set(`${pName}_parcel/tracking_number`, trackerNumber, (err, reply) => {
-			if (err) throw err;
-			if (reply == null) {
-				res.code(500).send({ msg: 'Redis client response was null'})
-			} else {
-				res.code(201).send({ msg: reply });
-			};
-		});
-
-		
+		var decoded = await decode(atok);
+		const pName = decoded.id;
+		var trackingNumber = await rclient.get(`${pName}_parcel/tracking_number`);
+		res.code(200).send({ tracking_number: trackingNumber });
 	});
 
-	route.post('/parcel/add/location', (req, res) => {
-		const pName = req.body.parcelKey;
+	route.post('/parcel/add/tracking', async (req, res) => {
+		var atok = req.headers['x-access-token'];
+		if (!atok) {return res.code(401).send({ msg: 'No token provided.'})};
+		var result = await verify(atok);
+		if (!result) {return res.code(500).send({ msg: 'Failed to authenticate token.'})};
+
+		var decoded = await decode(atok);
+		const pName = decoded.id;
+		const trackerNumber = req.body.trackerNumber;
+		
+		var reply = await rclient.set(`${pName}_parcel/tracking_number`, trackerNumber);
+		if (reply == null) {
+			res.code(500).send({ msg: 'Error setting tracking number in cache.'})
+		};
+
+		return res.code(200).send({ msg: 'successfully added to cache.'});
+	});
+
+	route.post('/parcel/add/location', async (req, res) => {
+		var atok = req.headers['x-access-token'];
+		if (!atok) {return res.code(401).send({ msg: 'No token provided.'})};
+		var result = await verify(atok);
+		if (!result) {return res.code(500).send({ msg: 'Failed to authenticate token.'})};
+
+		var decoded = await decode(atok);
+		const pName = decoded.id;
 		const pLat = req.body.lat;
 		const pLng = req.body.lng;
 		const coordinate = {lat: pLat, lng: pLng};

@@ -34,7 +34,7 @@ class HomePage extends Component {
         <FormControl>
             <InputLabel htmlFor="parcel-input">Parcel Name:</InputLabel>
             <Input inputRef={this.parcelTextRef} id="parcel-input" aria-describedby="parcel-text-helper" />
-            <FormHelperText id="parcel-text-helper">We'll never share your tracking number, unless needed.</FormHelperText>
+            <FormHelperText id="parcel-text-helper">This will serve as your authorization for managing your parcel.</FormHelperText>
             <Button className="primary_btn" variant="contained" color="primary" onClick={this.addParcelToService}>
                 Add New Parcel
             </Button>
