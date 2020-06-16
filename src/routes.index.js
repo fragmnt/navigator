@@ -45,6 +45,8 @@ module.exports = function (route, options, next) {
 		});
 	});
 	
+	// RETHINKDB
+
 	route.post('/add/parcel', async (req, res) => {
 		const pName = req.body.parcelKey;
 		const uniquePK = pName.toString();
@@ -63,6 +65,8 @@ module.exports = function (route, options, next) {
 		var decoded = await decode(atok);
 		return res.code(200).send({ payload: decoded });
 	});
+
+	// REDIS
 
 	route.get('/parcel/tracking', async (req, res) => {
 		var atok = req.headers['x-access-token'];
@@ -115,6 +119,8 @@ module.exports = function (route, options, next) {
 			};
 		});
 	});
+
+	// PAGERDUTY
 
 	next();
 };
