@@ -2021,6 +2021,11 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
+redis-timeseries@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/redis-timeseries/-/redis-timeseries-0.4.0.tgz#e431a96694806b26d90c583089c1b7f63ba35285"
+  integrity sha1-5DGpZpSAaybZDFgwicG39jujUoU=
+
 redis@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/redis/-/redis-3.0.2.tgz#bd47067b8a4a3e6a2e556e57f71cc82c7360150a"
