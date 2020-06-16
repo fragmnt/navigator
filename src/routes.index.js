@@ -2,35 +2,31 @@ const fp = require('fastify-plugin');
 const route = require('fastify');
 const redis = require('redis');
 const r = require('rethinkdb');
-
 const thinky = require('thinky');
 const rd = require('./db/redis.db.config');
-const pgd = require('./services/pagerduty.service');
-
 const {generate, verify, decode} = require('./lib/utils/jwt');
-const {uuid} = require('uuidv4');
+
+// PAGER-DUTY
+const pgd = require('@mapbox/pagerduty')({
+	pagerDutyToken: process.env.PAGERDUTY_API_TOKEN
+});
 
 // RETHINKDB
-
 let callback = (err, result) => {if (err) throw err;console.log(JSON.stringify(result, null, 2));};
 var rconn = null;
 r.connect( { host: process.env.RETHINKDB_HOST, port: process.env.RETHINKDB_PORT}, (err, conn) => {
 	if (err) throw err;
 	rconn = conn;
 });
-/*
-r.db('test').tableCreate('users').run(rconn, callback); */
 
 // REDIS
-
 var rclient = redis.createClient(process.env.REDIS_DB_PORT, process.env.REDIS_DB_HOST);
-    rclient.on('connect', function() {
-        console.log('Redis client connected');
-    });
-    
-    rclient.on('error', function (err) {
-        console.log('Something went wrong ' + err);
-    });
+rclient.on('connect', function() {
+    console.log('Redis client connected');
+}); 
+rclient.on('error', function (err) {
+    console.log('Something went wrong ' + err);
+});
 
 module.exports = function (route, options, next) {
 	route.get('/', (req, res) => {
