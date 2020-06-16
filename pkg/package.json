@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@tomtom-international/web-sdk-maps": "^5.57.0",
     "axios": "^0.19.2",
     "leaflet": "^1.6.0",
     "react": "^16.13.1",
