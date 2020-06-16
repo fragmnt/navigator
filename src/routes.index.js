@@ -42,7 +42,6 @@ module.exports = function (route, options, next) {
 	});
 	
 	// RETHINKDB
-
 	route.post('/add/parcel', async (req, res) => {
 		const pName = req.body.parcelKey;
 		const uniquePK = pName.toString();
@@ -63,7 +62,6 @@ module.exports = function (route, options, next) {
 	});
 
 	// REDIS
-
 	route.get('/parcel/tracking', async (req, res) => {
 		var atok = req.headers['x-access-token'];
 		if (!atok) {return res.code(401).send({ msg: 'No token provided.'})};

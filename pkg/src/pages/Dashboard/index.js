@@ -2,7 +2,8 @@ import React, { Component, createRef } from 'react';
 import './index.css';
 
 import {Button, FormControl, InputLabel, Input, FormHelperText} from '@material-ui/core';
-import {getParcelInfo, addTrackingToParcel} from '../../services/api.service';
+import {addTrackingToParcel, getParcelInfo} from '../../services/api.service';
+import {withRouter} from 'react-router-dom';
 
 class DashboardPage extends Component {
 
@@ -21,6 +22,9 @@ class DashboardPage extends Component {
 
     removeAuthenticationState = () => {
         localStorage.removeItem('token');
+        this.props.history.push({
+            pathname: `/`
+        });
         // redirect
     };
 
@@ -34,8 +38,14 @@ class DashboardPage extends Component {
     };
 
     componentDidMount = async () => {
-        const response = await getParcelInfo();
-        this.setState({ parcel: {name: response.data.payload.id}});
+        let token = localStorage.getItem('token');
+        if (token) {
+            const response = await getParcelInfo();
+            this.setState({ parcel: {name: response.data.payload.id}});
+        };
+        this.props.history.push({
+            pathname: `/`
+        });
     }
 
     render() {
@@ -63,4 +73,4 @@ class DashboardPage extends Component {
     }
 }
 
-export default DashboardPage;
+export default withRouter(DashboardPage);

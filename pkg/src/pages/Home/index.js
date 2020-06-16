@@ -2,6 +2,8 @@ import React, { Component, createRef } from 'react';
 import './index.css';
 
 import {Button, FormControl, InputLabel, Input, FormHelperText} from '@material-ui/core';
+import { Redirect } from "react-router";
+import {withRouter} from 'react-router-dom';
 import {addParcel} from '../../services/api.service';
 
 class HomePage extends Component {
@@ -20,9 +22,12 @@ class HomePage extends Component {
         if (response.status === 200) {
             localStorage.setItem('token', response.data.accessToken);
             // hide spinner, redirect
+            this.props.history.push({
+                pathname: `/dashboard`
+            });
         } else if (response.status === 500) {
             console.log(response);
-        }
+        };
     };
 
     render() {
@@ -44,4 +49,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage
+export default withRouter(HomePage);
