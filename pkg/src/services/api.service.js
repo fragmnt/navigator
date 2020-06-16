@@ -37,3 +37,61 @@ export const retrieveTrackingNumberFromParcel = () => {
         return res;
     })   
 };
+
+
+// PAGERDUTY
+
+export const createAnIncidentInPD = () => {
+    return axios.post(`${API_BASE_URL}/parcel/create/incident`, {
+            "incident": {
+              "type": "incident",
+              "title": "string",
+              "service": {
+                "id": "string",
+                "summary": "string",
+                "type": "service_reference",
+                "self": "string",
+                "html_url": "string"
+              },
+              "priority": {
+                "id": "string",
+                "summary": "string",
+                "type": "priority_reference",
+                "self": "string",
+                "html_url": "string"
+              },
+              "urgency": "high",
+              "body": {
+                "type": "incident_body",
+                "details": "string"
+              },
+              "incident_key": "string",
+              "assignments": [
+                {
+                  "assignee": {
+                    "id": "string",
+                    "summary": "string",
+                    "type": "user_reference",
+                    "self": "string",
+                    "html_url": "string"
+                  }
+                }
+              ],
+              "escalation_policy": {
+                "id": "string",
+                "summary": "string",
+                "type": "escalation_policy_reference",
+                "self": "string",
+                "html_url": "string"
+              },
+              "conference_bridge": {
+                "conference_number": "string",
+                "conference_url": "string"
+              }
+            }
+    }, {
+        headers: {
+            'X-Access-Token': localStorage.getItem('token')
+        }
+    })
+}
