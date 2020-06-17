@@ -1,6 +1,6 @@
 // :.
 
-const PORT = 8009;
+const PORT = 7778;
 const ffy = require('fastify')({
 	bodyLimit: 1048576 * 2,
 	logger: true

@@ -2,3 +2,4 @@ node_modules
 pkg/node_modules
 .vercel
 .env
+pkg/.env
