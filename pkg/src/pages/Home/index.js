@@ -43,7 +43,7 @@ class HomePage extends Component {
         return(<>
 
         <h1>Traceability insights and traffic monitoring for last-mile parcel delivery.</h1>
-        <p>Powered by PagerDuty.</p>
+        <p>Powered by PagerDuty, and TomTom.</p>
         
         <FormControl>
             <InputLabel htmlFor="parcel-input">Parcel Name:</InputLabel>
