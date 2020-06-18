@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://gdx3r.top/'
+const API_BASE_URL = 'https://gdx3r.top'
 
 export const addParcel = (pk) => {
     const payload = pk.toString();
