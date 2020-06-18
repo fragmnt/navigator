@@ -38,7 +38,6 @@ export const retrieveTrackingNumberFromParcel = () => {
     })   
 };
 
-
 // PAGERDUTY
 
 export const createAnIncidentInPD = () => {
@@ -95,3 +94,9 @@ export const createAnIncidentInPD = () => {
         }
     })
 }
+
+// TOM TOM
+
+export const getTrafficFlowForRegion = () => {
+  return;
+};
