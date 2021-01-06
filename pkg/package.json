@@ -7,7 +7,7 @@
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "@tomtom-international/web-sdk-maps": "^5.57.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dot-env": "^0.0.1",
     "geopoint": "^1.0.1",
     "leaflet": "^1.6.0",
