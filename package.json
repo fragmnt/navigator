@@ -21,7 +21,7 @@
     "knex": "^0.21.1",
     "node-pagerduty": "^1.2.0",
     "nodemon": "^2.0.4",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "redis-timeseries": "^0.4.0",
     "rethinkdb": "^2.4.2",
     "thinky": "^2.3.9",
