@@ -18,7 +18,7 @@
     "fastify-plugin": "^1.6.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
-    "knex": "^0.21.1",
+    "knex": "^2.4.0",
     "node-pagerduty": "^1.2.0",
     "nodemon": "^2.0.4",
     "redis": "^3.0.2",
